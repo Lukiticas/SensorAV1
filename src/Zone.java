@@ -29,7 +29,7 @@ public class Zone {
      * 
      * @return Log
      */
-    public Log generateLogs() {
+    private Log generateLogs() {
         Type<Double> tempValue = temperature.getReading();
         Type<Double> carbonValue = carbon.getReading();
         Type<Integer> umidityValue = umidity.getReading();
@@ -76,5 +76,14 @@ public class Zone {
 
         umidity.setName(name);
         umidity.setLocal(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) return true;
+        if(!(obj instanceof Zone)) return false;
+        Zone temp = (Zone) obj;
+        if(temp.name == this.name) return true;
+        return super.equals(obj);
     }
 }
