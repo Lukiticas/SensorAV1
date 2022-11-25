@@ -93,6 +93,14 @@ public class Controller {
         this.timer.cancel();
     }
 
+
+    /**
+     * @param type tipo de ordenação da database
+     * @param order ordem da database
+     */
+    public void orderBy(String type, boolean order) {
+        db.setSortOrder(type, order);
+    }
     /**
      * Exntesão da classe TimerTask, cria uma rotina entre chamar callLogsAndRegisterInDatabase
      * e gerar a table que será imprimida no terminal.

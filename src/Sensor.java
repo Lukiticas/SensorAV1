@@ -1,5 +1,4 @@
 import java.util.Random;
-
 /** 
  * A classe sensor tenta imitar um sensor fisico, tendo em seu contexto
  * Nome, local, seu tipo e sua unidade de medida.

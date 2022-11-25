@@ -1,4 +1,3 @@
-
 /**
  * No enunciado pede que as leituras sejam guardadas numa especie de banco de dados para posterior uso.
  * Essa classe busca emular esse comportamento.
@@ -19,6 +18,8 @@ public class Database {
      * de 1 dia, a database deveria resetar a cada 24 horas, então, Log a cada 30 minutos, 48 logs ao dia.
     */
     private final int MAX_SIZE;
+    private String typeOrder;
+    private boolean order;
     private Log[] databaseLogs;
 
     /** O index, um tipo de pointeiro usado para organizar e adicionar itens no array estático */
@@ -31,6 +32,8 @@ public class Database {
     public Database() {
         this.MAX_SIZE = 48;
         this.INDEX = 0;
+        this.typeOrder = "temperature";
+        this.order = false;
         databaseLogs = new Log[MAX_SIZE];
     }
 
@@ -51,6 +54,8 @@ public class Database {
 
         databaseLogs[INDEX] = log;
         INDEX++;
+
+        orderBy(typeOrder, this.order);
     }
 
     /**
@@ -67,17 +72,31 @@ public class Database {
             databaseLogs[INDEX] = logs[i];
             INDEX++;
         }
+
+        orderBy(typeOrder, this.order);
     }
 
     /**
      * instancia e chama o formatTable,
      * imprimindo todos os valores do database no terminal
-     * 
      * @see FormatTable
      */
     public void generateTable() {
+        this.orderBy(typeOrder, this.order);
         FormatTable table = new FormatTable(databaseLogs, INDEX);
         System.out.println(table.generateTable());
+    }
+
+    /**
+     * Configura o tipo de organização que a database irá usar:
+     * @param type categoria a ser sorteada, 
+     * deve estar dentro de 'temperature', "carbon level", "umidity" e "date"
+     * @param order booleano para indicar a ordem de true = ascendente e false = descendente;
+     */ 
+    public void setSortOrder(String type, boolean order) {
+        this.typeOrder = type;
+        this.order = order;
+        orderBy(typeOrder, this.order);
     }
 
     /**
@@ -104,32 +123,6 @@ public class Database {
                orderByTemperature(order);
          }
     }
-
-    /**
-     * overload, sorte por categoria em ordem descendente.
-     * @param type categoria a ser sorteada, 
-     * deve estar dentro de 'temperature', "carbon level", "umidity" e "date"
-     * 
-     * @see Database#orderBy(String, boolean)
-     */
-    public void orderBy(String type) {
-        switch (type) {
-           case "temperature":
-               orderByTemperature(false);
-               break;
-           case "carbon level":
-               orderByCarbonLevel(false);
-               break;
-           case "umidity":
-               orderByUmidity(false);
-               break;
-           case "date":
-               orderByDate(false);
-               break;
-           default:
-              orderByTemperature(false);
-        }
-   }
 
     public void orderByCarbonLevel(boolean order) {
         int n = INDEX;  
